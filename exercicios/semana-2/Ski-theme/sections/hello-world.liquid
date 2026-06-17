@@ -1,0 +1,29 @@
+<section style="padding: 2rem; text-align: center; background: #e47fe8;">
+  <h2>{{ section.settings.titulo }}</h2>
+  <p>{{ section.settings.subtitulo }}</p>
+</section>
+
+{% schema %}
+{
+  "name": "Hello World",
+  "settings": [
+    {
+      "type": "text",
+      "id": "titulo",
+      "label": "Título",
+      "default": "Olá, Shopify!"
+    },
+    {
+      "type": "text",
+      "id": "subtitulo",
+      "label": "Subtítulo",
+      "default": "Minha primeira section Liquid"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Hello World"
+    }
+  ]
+}
+{% endschema %}

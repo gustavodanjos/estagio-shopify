@@ -1,0 +1,128 @@
+<section
+  class="banner-destaque"
+  style="
+    background-image: url({{ section.settings.imagem | image_url: width: 1920 }});
+    height: {{ section.settings.altura }}px;
+    --cor-titulo: {{ section.settings.cor_titulo }};
+    --cor-subtitulo: {{ section.settings.cor_subtitulo }};
+  "
+>
+  <div class="banner-destaque__conteudo">
+    <h2 class="banner-destaque__titulo">{{ section.settings.titulo }}</h2>
+    <p class="banner-destaque__subtitulo">{{ section.settings.subtitulo }}</p>
+
+    {% if section.settings.botao_texto != blank and section.settings.botao_link != blank %}
+      <a href="{{ section.settings.botao_link }}" class="banner-destaque__botao">
+        {{ section.settings.botao_texto }}
+      </a>
+    {% endif %}
+  </div>
+</section>
+
+{% stylesheet %}
+  .banner-destaque {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    background-size: cover;
+    background-position: center;
+    background-repeat: no-repeat;
+  }
+
+  .banner-destaque__conteudo {
+    text-align: center;
+    max-width: 700px;
+    padding: 2rem;
+  }
+
+  .banner-destaque__titulo {
+    font-size: 2.5rem;
+    font-weight: bold;
+    margin-bottom: 1rem;
+    color: var(--cor-titulo);
+  }
+
+  .banner-destaque__subtitulo {
+    font-size: 1.25rem;
+    margin-bottom: 1.5rem;
+    color: var(--cor-subtitulo);
+  }
+
+  .banner-destaque__botao {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    background-color: #fff;
+    color: #010101;
+    text-decoration: none;
+    font-weight: bold;
+    border-radius: 4px;
+    transition: opacity 0.2s;
+  }
+
+  .banner-destaque__botao:hover {
+    opacity: 0.85;
+  }
+{% endstylesheet %}
+
+{% schema %}
+{
+  "name": "Banner de Destaque",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "imagem",
+      "label": "Imagem de fundo"
+    },
+    {
+      "type": "text",
+      "id": "titulo",
+      "label": "Título",
+      "default": "Bem-vindo à nossa loja"
+    },
+    {
+      "type": "text",
+      "id": "subtitulo",
+      "label": "Subtítulo",
+      "default": "Confira nossas ofertas especiais"
+    },
+    {
+      "type": "text",
+      "id": "botao_texto",
+      "label": "Texto do botão",
+      "default": "Ver produtos"
+    },
+    {
+      "type": "url",
+      "id": "botao_link",
+      "label": "Link do botão"
+    },
+    {
+      "type": "color",
+      "id": "cor_titulo",
+      "label": "Cor do título",
+      "default": "#ffffff"
+    },
+    {
+      "type": "color",
+      "id": "cor_subtitulo",
+      "label": "Cor do subtítulo",
+      "default": "#f0f0f0"
+    },
+    {
+      "type": "range",
+      "id": "altura",
+      "label": "Altura do banner",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "default": 500,
+      "unit": "px"
+    }
+  ],
+  "presets": [
+    {
+      "name": "Banner de Destaque"
+    }
+  ]
+}
+{% endschema %}
