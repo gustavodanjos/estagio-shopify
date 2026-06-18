@@ -96,7 +96,14 @@
       <div class="produto-item">
         <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title }}">
         <h3>{{ product.title }}</h3>
-        <p class="preco">{{ product.price | money }}</p>
+        <p class="preco">
+          {%- if product.compare_at_price > product.price -%}
+            <span class="preco-original">{{ product.compare_at_price | money }}</span>
+            <span class="preco-promocional">{{ product.price | money }}</span>
+          {%- else -%}
+            {{ product.price | money }}
+          {%- endif -%}
+        </p>
       </div>
     {% endfor %}
   </div>
