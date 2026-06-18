@@ -1,0 +1,37 @@
+/*
+ * ------------------------------------------------------------
+ * IMPORTANT: The contents of this file are auto-generated.
+ *
+ * This file may be updated by the Shopify admin theme editor
+ * or related systems. Please exercise caution as any changes
+ * made to this file may be overwritten.
+ * ------------------------------------------------------------
+ */
+{
+  "sections": {
+    "main": {
+      "type": "main-page",
+      "custom_css": [],
+      "settings": {
+        "padding_top": 44,
+        "padding_bottom": 28
+      }
+    },
+    "exercicio_liquid_basico_WANYeF": {
+      "type": "exercicio-liquid-basico",
+      "name": "Exercício Liquid Básico",
+      "settings": {
+        "titulo": "Desafio 2.1 — Primeiros Passos com Liquid",
+        "descricao": "<p>Aqui você encontra os melhores produtos.</p>",
+        "quantidade_produtos": 4,
+        "layout": "grid",
+        "cor_fundo": "#FFFFFF",
+        "colecao_destaque": "todos-produtos"
+      }
+    }
+  },
+  "order": [
+    "main",
+    "exercicio_liquid_basico_WANYeF"
+  ]
+}

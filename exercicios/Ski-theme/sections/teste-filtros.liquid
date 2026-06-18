@@ -1,0 +1,50 @@
+{% assign produto = section.settings.produto %}
+{% assign colecao = section.settings.colecao %}
+
+<div style="padding: 2rem; max-width: 600px; margin: 0 auto; font-family: sans-serif;">
+  {%- comment -%} Exercício 1: Formatar preço {%- endcomment -%}
+  <p><strong>Ex1 - Preço formatado:</strong> {{ produto.price | money }}</p>
+
+  {%- comment -%} Exercício 2: Truncar descrição {%- endcomment -%}
+  <p>
+    <strong>Ex2 - Truncar Descrição :</strong><br>
+    {{ produto.description | strip_html | truncate: 80 }}
+  </p>
+
+  {%- comment -%} Exercício 3: Imagem redimensionada {%- endcomment -%}
+  {% if produto.featured_image %}
+    <p><strong>Ex3 - Imagem redimensionada(400px):</strong></p>
+    <img src="{{ produto.featured_image | image_url: width: 400 }}" alt="{{ produto.title }}" width="200">
+  {% endif %}
+
+  {%- comment -%} Exercício 4: Condicional de promoção {%- endcomment -%}
+  <p>
+    <strong>Ex4 - Condicional de Promoção:</strong>
+    {% if produto.compare_at_price > produto.price %}
+      <span class="badge-promocao">Em promoção!</span>
+    {% else %}
+      Sem desconto
+    {% endif %}
+  </p>
+
+  {%- comment -%} Exercício 5: Loop com condição {%- endcomment -%}
+  <p><strong>Ex5 - Produtos disponíveis na coleção:</strong></p>
+  <ul>
+    {% for product in colecao.products limit: 6 %}
+      {% if product.available %}
+        <li>{{ product.title }} - {{ product.price | money }}</li>
+      {% endif %}
+    {% endfor %}
+  </ul>
+</div>
+
+{% schema %}
+{
+  "name": "Teste de Filtros",
+  "settings": [
+    { "type": "product", "id": "produto", "label": "Produto de teste" },
+    { "type": "collection", "id": "colecao", "label": "Coleção de teste" }
+  ],
+  "presets": [{ "name": "Teste de Filtros" }]
+}
+{% endschema %}
