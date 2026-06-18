@@ -15,7 +15,8 @@ TAREFA: Implementar o card de produto com os seguintes elementos:
 - Dica: {% assign largura = image_width | default: 400 %}
 2. TÍTULO do produto como link
 - Envolver em <a> apontando para product.url
-- Envolver em <h3>3. PREÇO atual formatado
+- Envolver em <h3>
+3. PREÇO atual formatado
 - Usar product.price | money
 - Classe "product-card__preco"
 4. BADGE de promoção (condicional)
@@ -34,3 +35,27 @@ verdade)
 - Imagem responsiva
 - Layout organizado
 {%- endcomment -%}
+{% assign largura = image_width | default: 400 %}
+<div class="product-card">
+  <div class="product-card__image">
+    <img src="{{ product.featured_image | image_url: width: largura }}" alt="{{ product.title }}" width="{{ largura }}">
+    {% if show_badge != false %}
+      {% if product.compare_at_price > product.price %}
+        {% assign desconto = 100 | minus: product.price | divided_by: product.compare_at_price | times: 100 | round %}
+        <div class="product-card__badge badge--desconto">{{ desconto }}% OFF</div>
+        <div class="product-card__preco-original">{{ product.compare_at_price | money }}</div>
+      {% elsif product.available == false %}
+        <div class="product-card__badge badge--esgotado">Esgotado</div>
+      {% endif %}
+    {% endif %}
+  </div>
+  <h3 class="product-card__titulo"><a href="{{ product.url }}">{{ product.title }}</a></h3>
+  <div class="product-card__preco">{{ product.price | money }}</div>
+  <button class="product-card__botao" {% if product.available == false %}disabled{% endif %}>
+    {% if product.available == false %}
+      Indisponível
+    {% else %}
+      Adicionar ao carrinho
+    {% endif %}
+  </button>
+</div>

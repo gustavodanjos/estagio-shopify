@@ -1,36 +1,137 @@
 {% comment %}
-Snippet: Product Card
-Uso: {% render 'product-card', product: product, show_badge: true %}
-Parâmetros:
-- product: objeto do produto (obrigatório)
-- show_badge: exibir badge de promoção (opcional, default: true)
-- image_width: largura da imagem (opcional, default: 400)
+  Snippet: Product Card
+  Uso: {% render 'product-card', product: product, show_badge: true %}
+  Parâmetros:
+  - product: objeto do produto (obrigatório)
+  - show_badge: exibir badge de promoção (opcional, default: true)
+  - image_width: largura da imagem (opcional, default: 400)
 {% endcomment %}
 {%- comment -%}
-TAREFA: Implementar o card de produto com os seguintes elementos:
-1. IMAGEM do produto
-- Usar product.featured_image com o filtro image_url
-- Largura: usar o parâmetro image_width se fornecido, senão 400
-- Incluir alt text com o título do produto
-- Dica: {% assign largura = image_width | default: 400 %}
-2. TÍTULO do produto como link
-- Envolver em <a> apontando para product.url
-- Envolver em <h3>3. PREÇO atual formatado
-- Usar product.price | money
-- Classe "product-card__preco"
-4. BADGE de promoção (condicional)
-- Só exibir se show_badge for true (ou não foi passado — default true)
-- Se product.compare_at_price > product.price:
-- Mostrar badge com porcentagem de desconto
-- Mostrar preço original riscado
-- Se product.available == false:
-- Mostrar badge "Esgotado"
-5. BOTÃO "Adicionar ao carrinho"
-- Por enquanto pode ser apenas visual (não precisa funcionar de
-verdade)
-- Se produto esgotado, botão desabilitado com texto "Indisponível"
-6. CSS do card
-- Card com borda sutil, border-radius, hover com sombra
-- Imagem responsiva
-- Layout organizado
+  TAREFA: Implementar o card de produto com os seguintes elementos:
+  1. IMAGEM do produto
+  - Usar product.featured_image com o filtro image_url
+  - Largura: usar o parâmetro image_width se fornecido, senão 400
+  - Incluir alt text com o título do produto
+  - Dica: {% assign largura = image_width | default: 400 %}
+  2. TÍTULO do produto como link
+  - Envolver em <a> apontando para product.url
+  - Envolver em <h3>3. PREÇO atual formatado
+  - Usar product.price | money
+  - Classe "product-card__preco"
+  4. BADGE de promoção (condicional)
+  - Só exibir se show_badge for true (ou não foi passado — default true)
+  - Se product.compare_at_price > product.price:
+  - Mostrar badge com porcentagem de desconto
+  - Mostrar preço original riscado
+  - Se product.available == false:
+  - Mostrar badge "Esgotado"
+  5. BOTÃO "Adicionar ao carrinho"
+  - Por enquanto pode ser apenas visual (não precisa funcionar de
+  verdade)
+  - Se produto esgotado, botão desabilitado com texto "Indisponível"
+  6. CSS do card
+  - Card com borda sutil, border-radius, hover com sombra
+  - Imagem responsiva
+  - Layout organizado
 {%- endcomment -%}
+{% assign largura = image_width | default: 400 %}
+<div class="product-card">
+  <div class="product-card__image">
+    <img
+      src="{{ product.featured_image | image_url: width: largura }}"
+      alt="{{ product.title }}"
+      width="{{ largura }}">
+    <h3 class="product-card__titulo">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+    {% if show_badge != false %}
+      {% if product.compare_at_price > product.price %}
+        {% assign desconto = product.compare_at_price | minus: product.price %}
+        {% assign porcentagem = desconto | times: 100 | divided_by: product.compare_at_price | floor %}
+        <span class="product-card__badge badge--desconto">{{ porcentagem }}% OFF</span>
+        <span class="product-card__preco-original">
+          <s>{{ product.compare_at_price | money }}</s>
+        </span>
+        <div class="product-card__preco-promocional">{{ product.price | money }}</div>
+      {% elsif product.available == false %}
+        <span class="product-card__badge badge--esgotado">Esgotado</span>
+      {% else %}
+        <span class="product-card__preco">{{ product.price | money }}</span>
+      {% endif %}
+    {% endif %}
+  </div>
+  <button
+    class="product-card__botao"
+    {% if product.available == false %}
+    disabled{% endif %}>
+    {% if product.available == false %}
+      Indisponível
+    {% else %}
+      Adicionar ao carrinho
+    {% endif %}
+  </button>
+</div>
+
+{% stylesheet %}
+  .product-card {
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 16px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .product-card:hover {
+    box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
+  }
+
+  .product-card__image {
+    text-align: center;
+  }
+
+  .product-card__image img {
+    max-width: 100%;
+    height: auto;
+  }
+
+  .product-card__titulo {
+    margin-top: 16px;
+    margin-bottom: 16px;
+  }
+
+  .product-card__preco {
+    font-weight: bold;
+    font-size: 1.2em;
+  }
+
+  .product-card__preco-original s {
+    text-decoration: line-through;
+    color: #999999;
+  }
+
+  .product-card__badge {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.9em;
+    margin-right: 8px;
+  }
+
+  .product-card__botao {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+  }
+
+  .product-card__botao:hover:not(:disabled) {
+    background-color: #0056b3;
+  }
+
+  .product-card__botao[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+{% endstylesheet %}

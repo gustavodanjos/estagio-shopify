@@ -6,7 +6,7 @@
         "type": "text",
         "id": "titulo",
         "label": "Título da seção",
-        "default": "Nossos Produtos"
+        "default": "Desafio 2.3 - Liquid: Snippet reutilizável"
       },
       {
         "type": "collection",
@@ -49,18 +49,16 @@
     ]
   }
 {% endschema %}
-<section class="product-grid" style="background-color: {{
-section.settings.cor_fundo }}">
+<section class="product-grid" style="background-color: {{section.settings.cor_fundo }}">
   {% if section.settings.titulo != blank %}
     <h2 class="product-grid__titulo">{{ section.settings.titulo }}</h2>
   {% endif %}
   {% if section.settings.colecao != blank %}
     {% assign colecao = collections[section.settings.colecao] %}
-    <div class="product-grid__container" style="--colunas: {{
-section.settings.colunas }}">
+    <div class="product-grid__container" style="--colunas: {{section.settings.colunas }}">
       {% for product in colecao.products limit: section.settings.limite %}
         {% render 'product-card'
-          ,product: product
+          , product: product
           , show_badge: section.settings.show_badge
         %}
       {% endfor %}
@@ -73,8 +71,7 @@ section.settings.colunas }}">
       </div>
     {% endif %}
   {% else %}
-    <p class="product-grid__vazio">Selecione uma coleção nas configurações 
-da seção.</p>
+    <p class="product-grid__vazio">Selecione uma coleção nas configurações da seção.</p>
   {% endif %}
 </section>
 <style>
