@@ -1,0 +1,130 @@
+{% schema %}
+  {
+    "name": "Grade de Produtos",
+    "settings": [
+      {
+        "type": "text",
+        "id": "titulo",
+        "label": "Título da seção",
+        "default": "Nossos Produtos"
+      },
+      {
+        "type": "collection",
+        "id": "colecao",
+        "label": "Coleção"
+      },
+      {
+        "type": "range",
+        "id": "colunas",
+        "label": "Colunas",
+        "min": 2,
+        "max": 4,
+        "step": 1,
+        "default": 3
+      },
+      {
+        "type": "range",
+        "id": "limite",
+        "label": "Máximo de produtos",
+        "min": 3,
+        "max": 12,
+        "step": 1,
+        "default": 6
+      }, {
+        "type": "checkbox",
+        "id": "show_badge",
+        "label": "Exibir badges de promoção",
+        "default": true
+      }, {
+        "type": "color",
+        "id": "cor_fundo",
+        "label": "Cor de fundo da seção",
+        "default": "#ffffff"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Grade de Produtos"
+      }
+    ]
+  }
+{% endschema %}
+<section class="product-grid" style="background-color: {{
+section.settings.cor_fundo }}">
+  {% if section.settings.titulo != blank %}
+    <h2 class="product-grid__titulo">{{ section.settings.titulo }}</h2>
+  {% endif %}
+  {% if section.settings.colecao != blank %}
+    {% assign colecao = collections[section.settings.colecao] %}
+    <div class="product-grid__container" style="--colunas: {{
+section.settings.colunas }}">
+      {% for product in colecao.products limit: section.settings.limite %}
+        {% render 'product-card'
+          ,product: product
+          , show_badge: section.settings.show_badge
+        %}
+      {% endfor %}
+    </div>
+    {% if colecao.products.size > section.settings.limite %}
+      <div class="product-grid__ver-mais">
+        <a href="{{ colecao.url }}" class="product-grid__link">
+          Ver todos os {{ colecao.products.size }} produtos
+        </a>
+      </div>
+    {% endif %}
+  {% else %}
+    <p class="product-grid__vazio">Selecione uma coleção nas configurações 
+da seção.</p>
+  {% endif %}
+</section>
+<style>
+  .product-grid {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .product-grid__titulo {
+    text-align: center;
+    margin-bottom: 2rem;
+    font-size: 1.75rem;
+  }
+  .product-grid__container {
+    display: grid;
+    grid-template-columns: repeat(var(--colunas), 1fr);
+    gap: 1.5rem;
+  }
+  .product-grid__ver-mais {
+    text-align: center;
+    margin-top: 2rem;
+  }
+  .product-grid__link {
+    display: inline-block;
+    padding: 0.75rem 2rem;
+    border: 2px solid #333;
+    color: #333;
+    text-decoration: none;
+    border-radius: 4px;
+    transition: all 0.3s;
+  }
+  .product-grid__link:hover {
+    background-color: #333;
+    color: white;
+  }
+  .product-grid__vazio {
+    text-align: center;
+    color: #999;
+    padding: 2rem;
+  }
+  /* Responsivo */
+  @media (max-width: 768px) {
+    .product-grid__container {
+      grid-template-columns: repeat(2, 1fr);
+      gap: 1rem;
+    }
+  }
+  @media (max-width: 480px) {
+    .product-grid__container {
+      grid-template-columns: 1fr;
+    }
+  }
+</style>
