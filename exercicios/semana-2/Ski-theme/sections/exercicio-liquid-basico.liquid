@@ -11,12 +11,14 @@
         "id": "titulo",
         "label": "Título da seção",
         "default": "Bem-vindo à nossa loja"
-      }, {
+      },
+      {
         "type": "richtext",
         "id": "descricao",
         "label": "Descrição",
         "default": "<p>Aqui você encontra os melhores produtos.</p>"
-      }, {
+      },
+      {
         "type": "range",
         "id": "quantidade_produtos",
         "label": "Quantidade de produtos para exibir",
@@ -24,7 +26,8 @@
         "max": 8,
         "step": 1,
         "default": 4
-      }, {
+      },
+      {
         "type": "select",
         "id": "layout",
         "label": "Layout",
@@ -38,6 +41,15 @@
           }
         ],
         "default": "grid"
+      }, {
+        "type": "color",
+        "id": "cor_fundo",
+        "label": "Cor de fundo",
+        "default": "#ffffff"
+      }, {
+        "type": "collection",
+        "id": "colecao_destaque",
+        "label": "Coleção para o botão \"Ver todos\""
       }
     ],
     "presets": [
