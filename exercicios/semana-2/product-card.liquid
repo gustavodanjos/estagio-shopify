@@ -1,0 +1,36 @@
+{% comment %}
+Snippet: Product Card
+Uso: {% render 'product-card', product: product, show_badge: true %}
+Parâmetros:
+- product: objeto do produto (obrigatório)
+- show_badge: exibir badge de promoção (opcional, default: true)
+- image_width: largura da imagem (opcional, default: 400)
+{% endcomment %}
+{%- comment -%}
+TAREFA: Implementar o card de produto com os seguintes elementos:
+1. IMAGEM do produto
+- Usar product.featured_image com o filtro image_url
+- Largura: usar o parâmetro image_width se fornecido, senão 400
+- Incluir alt text com o título do produto
+- Dica: {% assign largura = image_width | default: 400 %}
+2. TÍTULO do produto como link
+- Envolver em <a> apontando para product.url
+- Envolver em <h3>3. PREÇO atual formatado
+- Usar product.price | money
+- Classe "product-card__preco"
+4. BADGE de promoção (condicional)
+- Só exibir se show_badge for true (ou não foi passado — default true)
+- Se product.compare_at_price > product.price:
+- Mostrar badge com porcentagem de desconto
+- Mostrar preço original riscado
+- Se product.available == false:
+- Mostrar badge "Esgotado"
+5. BOTÃO "Adicionar ao carrinho"
+- Por enquanto pode ser apenas visual (não precisa funcionar de
+verdade)
+- Se produto esgotado, botão desabilitado com texto "Indisponível"
+6. CSS do card
+- Card com borda sutil, border-radius, hover com sombra
+- Imagem responsiva
+- Layout organizado
+{%- endcomment -%}
