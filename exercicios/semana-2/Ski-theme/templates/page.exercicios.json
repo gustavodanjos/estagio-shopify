@@ -24,7 +24,9 @@
         "titulo": "Desafio 2.1 — Primeiros Passos com Liquid",
         "descricao": "<p>Aqui você encontra os melhores produtos.</p>",
         "quantidade_produtos": 4,
-        "layout": "grid"
+        "layout": "grid",
+        "cor_fundo": "#FFFFFF",
+        "colecao_destaque": "todos-produtos"
       }
     }
   },
