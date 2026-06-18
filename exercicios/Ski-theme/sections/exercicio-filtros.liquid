@@ -6,6 +6,11 @@
         "type": "collection",
         "id": "colecao",
         "label": "Coleção para exibir"
+      }, {
+        "type": "text",
+        "id": "titulo",
+        "label": "Título da seção",
+        "default": "Desafio 2.2 - Liquid: Filtros e Condicionais"
       }
     ],
     "presets": [
@@ -16,9 +21,11 @@
   }
 {% endschema %}
 <section class="exercicio-filtros">
+  <h2 class="titulo-secao">{{ section.settings.titulo }}</h2>
   {% if section.settings.colecao != blank %}
     {% assign colecao = collections[section.settings.colecao] %}<h2>{{ colecao.title | upcase }}</h2>
-    <p>Total de produtos: {{ colecao.products.size }}</p>
+    <p>Total de produtos: {{ colecao.products.size }}
+  </p>
     {%- comment -%}
       TAREFA 1: Para cada produto da coleção, exibir:
       a) Título capitalizado — usar o filtro capitalize
@@ -50,23 +57,57 @@
       c) Se o produto estiver disponível e NÃO for promoção:
       - Mostrar badge "Disponível" com classe "badge-disponivel"
     {%- endcomment -%}
-  {%- comment -%}
-    TAREFA 3: Usar assign e capture
-    a) assign — Criar uma variável que conte quantos produtos estão em
-    promoção:
-    - Antes do loop, inicializar: {% assign produtos_em_promocao = 0
-    %}
-    - Dentro do loop, incrementar quando for promoção
-    - Após o loop, exibir: "X produtos em promoção"b) capture — Montar um texto resumo dinâmico:
+    {%- comment -%}
+      TAREFA 3: Usar assign e capture
+      a) assign — Criar uma variável que conte quantos produtos estão em
+      promoção:
+      - Antes do loop, inicializar: {% assign produtos_em_promocao = 0
+      %}
+      - Dentro do loop, incrementar quando for promoção
+      - Após o loop, exibir: "X produtos em promoção"b) capture — Montar um texto resumo dinâmico:
+      {% capture resumo %}
+      A coleção "{{ colecao.title }}" tem {{ colecao.products.size }}
+      produtos,
+      sendo {{ produtos_em_promocao }} em promoção.
+      {% endcapture %}
+      - Exibir o resumo em um <p> com classe "resumo"
+    {%- endcomment -%}
+    {% assign produtos_em_promocao = 0 %}
+    <div class="produtos-container">
+      {% for produto in colecao.products %}
+        <div class="produto-card">
+          <img src="{{ produto.featured_image | image_url: width: 300 }}" alt="{{ produto.title }}">
+          <h3>{{ produto.title | capitalize }}</h3>
+          <p class="descricao">{{ produto.description | strip_html | truncate: 100 }}</p>
+          <p class="preco">
+            {%- if produto.available == false -%}
+              <span class="badge-esgotado">Esgotado</span>
+              {{ produto.price | money }}
+            {%- elsif produto.compare_at_price > produto.price -%}
+              {% assign produtos_em_promocao = produtos_em_promocao | plus: 1 %}
+              {% assign desconto = produto.compare_at_price | minus: produto.price %}
+              {% assign porcentagem = desconto | times: 100 | divided_by: produto.compare_at_price | floor %}
+              <span class="badge-promocao">Em promoção - {{ porcentagem }}% OFF</span>
+              <span class="preco-original">
+                <s>{{ produto.compare_at_price | money }}</s>
+              </span>
+              <span class="preco-promocional">{{ produto.price | money }}</span>
+            {%- else -%}
+              <span class="badge-disponivel">Disponível</span>
+              {{ produto.price | money }}
+            {%- endif -%}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
     {% capture resumo %}
-    A coleção "{{ colecao.title }}" tem {{ colecao.products.size }}
-    produtos,
-    sendo {{ produtos_em_promocao }} em promoção.
+      A coleção "{{ colecao.title }}" tem {{ colecao.products.size }}
+      produtos,
+      sendo {{ produtos_em_promocao }} em promoção.
     {% endcapture %}
-    - Exibir o resumo em um <p> com classe "resumo"
-  {%- endcomment -%}
+    <p class="resumo">{{ resumo }}</p>
   {% else %}
-    <p class="sem-colecao">Selecione uma coleção nas configurações da 
+    <p class="sem-colecao">Selecione uma coleção nas configurações da                 
 seção.</p>
   {% endif %}
 </section>
