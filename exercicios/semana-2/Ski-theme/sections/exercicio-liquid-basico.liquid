@@ -93,7 +93,7 @@
   {%- endcomment -%}
   <div class="produtos-container {% if section.settings.layout == 'grid' %}layout-grid{% else %}layout-list{% endif %}">
     {% for product in collections.all.products limit: section.settings.quantidade_produtos %}
-      <div class="produto-item">
+      <div class="produto-item"{% if product.compare_at_price > product.price %} class="produto-promocao"{% endif %}>
         <img src="{{ product.featured_image | image_url: width: 300 }}" alt="{{ product.title }}">
         <h3>{{ product.title }}</h3>
         <p class="preco">
