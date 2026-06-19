@@ -88,13 +88,8 @@
               {% assign desconto = produto.compare_at_price | minus: produto.price %}
               {% assign porcentagem = desconto | times: 100 | divided_by: produto.compare_at_price | floor %}
               <span class="badge-promocao">Em promoção - {{ porcentagem }}% OFF</span>
-              <span class="preco-original">
-                <s>{{ produto.compare_at_price | money }}</s>
-              </span>
-              <span class="preco-promocional">{{ produto.price | money }}</span>
             {%- else -%}
               <span class="badge-disponivel">Disponível</span>
-              {{ produto.price | money }}
             {%- endif -%}
           </p>
         </div>
@@ -107,7 +102,7 @@
     {% endcapture %}
     <p class="resumo">{{ resumo }}</p>
   {% else %}
-    <p class="sem-colecao">Selecione uma coleção nas configurações da                   
+    <p class="sem-colecao">Selecione uma coleção nas configurações da                     
 seção.</p>
   {% endif %}
 </section>
@@ -133,6 +128,9 @@ seção.</p>
     padding: 1rem;
     position: relative;
     transition: box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
   }
   .produto-card:hover {
     box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
@@ -150,6 +148,7 @@ seção.</p>
     font-size: 0.85rem;
     color: #666;
     margin-bottom: 0.5rem;
+    flex-grow: 1;
   }
   .produto-card .preco {
     font-weight: bold;
