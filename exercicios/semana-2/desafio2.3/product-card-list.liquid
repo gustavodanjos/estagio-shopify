@@ -23,6 +23,8 @@
       {% else %}
         <span class="product-card-list__preco">{{ product.price | money }}</span>
       {% endif %}
+      {% else %}
+        <span class="product-card-list__preco">{{ product.price | money }}</span>
     {% endif %}
   </div>
   <button class="product-card-list__botao" {% if product.available == false %}disabled{% endif %}>

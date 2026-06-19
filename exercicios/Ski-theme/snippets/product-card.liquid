@@ -68,6 +68,8 @@
       {% else %}
         <span class="product-card__preco">{{ product.price | money }}</span>
       {% endif %}
+      {% else %}
+        <span class="product-card__preco">{{ product.price | money }}</span>
     {% endif %}
   </div>
   <button
