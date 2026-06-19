@@ -38,12 +38,22 @@
 <div class="product-card">
   <div class="product-card__image">
     <img
-      src="{{ product.featured_image | image_url: width: largura }}"
-      alt="{{ product.title }}"
-      width="{{ largura }}">
+      src="{{ product.featured_image | image_url: width: largura }}" alt="{{ product.title }}" width="{{ largura }}" class="product-card__img">
     <h3 class="product-card__titulo">
       <a href="{{ product.url }}">{{ product.title }}</a>
     </h3>
+    {% assign cor_option_index = product.options_with_values | where: "name", "Cor" %}
+    {% if cor_option_index == blank %}
+      {% assign cor_option_index = product.options_with_values | where: "name", "Color" %}
+    {% endif %}
+
+    {% if cor_option_index.size > 0 %}
+      <div class="product-card__cores">
+        {% for valor in cor_option_index.first.values %}
+          <span class="product-card__cor-bolinha" style="background-color: {{ valor | handle }};" title="{{ valor }}"></span>
+        {% endfor %}
+      </div>
+    {% endif %}
     {% if show_badge != false %}
       {% if product.compare_at_price > product.price %}
         {% assign desconto = product.compare_at_price | minus: product.price %}
@@ -86,12 +96,18 @@
 
   .product-card__image {
     text-align: center;
+    border-radius: 4px;
   }
 
   .product-card__image img {
     max-width: 100%;
     height: auto;
+    transition: transform 0.4s ease;
+    display: block;
   }
+  .product-card:hover .product-card__image img {
+    transform: scale(1.08);
+}
 
   .product-card__titulo {
     margin-top: 16px;
@@ -134,4 +150,18 @@
     background-color: #ccc;
     cursor: not-allowed;
   }
+
+  .product-card__cores {
+  display: flex;
+  gap: 6px;
+  margin: 8px 0;
+}
+
+.product-card__cor-bolinha {
+  width: 18px;
+  height: 18px;
+  border-radius: 50%;
+  border: 1px solid #ccc;
+  display: inline-block;
+}
 {% endstylesheet %}
