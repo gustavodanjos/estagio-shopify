@@ -1,0 +1,83 @@
+{% comment %}
+  Snippet: Product Card List (horizontal)
+  Uso: {% render 'product-card-list', product: product, show_badge: true %}
+{% endcomment %}
+{% assign largura = image_width | default: 150 %}
+<div class="product-card-list">
+  <div class="product-card-list__image">
+    <img src="{{ product.featured_image | image_url: width: largura }}" alt="{{ product.title }}" width="{{ largura }}">
+  </div>
+  <div class="product-card-list__info">
+    <h3 class="product-card-list__titulo">
+      <a href="{{ product.url }}">{{ product.title }}</a>
+    </h3>
+    {% if show_badge != false %}
+      {% if product.compare_at_price > product.price %}
+        {% assign desconto = product.compare_at_price | minus: product.price %}
+        {% assign porcentagem = desconto | times: 100 | divided_by: product.compare_at_price | floor %}
+        <span class="product-card-list__badge badge--desconto">{{ porcentagem }}% OFF</span>
+        <span class="product-card-list__preco-original"><s>{{ product.compare_at_price | money }}</s></span>
+        <span class="product-card-list__preco-promocional">{{ product.price | money }}</span>
+      {% elsif product.available == false %}
+        <span class="product-card-list__badge badge--esgotado">Esgotado</span>
+      {% else %}
+        <span class="product-card-list__preco">{{ product.price | money }}</span>
+      {% endif %}
+    {% endif %}
+  </div>
+  <button class="product-card-list__botao" {% if product.available == false %}disabled{% endif %}>
+    {% if product.available == false %}Indisponível{% else %}Adicionar ao carrinho{% endif %}
+  </button>
+</div>
+
+{% stylesheet %}
+  .product-card-list {
+    display: flex;
+    align-items: center;
+    gap: 16px;
+    border: 1px solid #ccc;
+    border-radius: 8px;
+    padding: 12px;
+  }
+  .product-card-list__image img {
+    border-radius: 4px;
+    display: block;
+  }
+  .product-card-list__info {
+    flex: 1;
+  }
+  .product-card-list__botao {
+    background-color: #007bff;
+    color: white;
+    border: none;
+    padding: 8px 16px;
+    border-radius: 4px;
+    cursor: pointer;
+    white-space: nowrap;
+  }
+  .product-card-list__botao[disabled] {
+    background-color: #ccc;
+    cursor: not-allowed;
+  }
+  .product-card-list__botao:hover:not(:disabled) {
+  background-color: #0056b3;
+}
+  .product-card-list__badge {
+    background-color: #ff4d4d;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.85em;
+    margin-right: 8px;
+  }
+  
+  .product-card-list__preco-original s {
+    color: #999;
+  }
+  
+  .product-card-list__preco-promocional,
+  .product-card-list__preco {
+    font-weight: bold;
+    font-size: 1.1em;
+  }
+{% endstylesheet %}
