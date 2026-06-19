@@ -46,11 +46,23 @@
     {% if cor_option_index == blank %}
       {% assign cor_option_index = product.options_with_values | where: "name", "Color" %}
     {% endif %}
-
+    {% assign cor_option_index = product.options_with_values | where: "name", "Cor" %}
+    {% if cor_option_index == blank %}
+      {% assign cor_option_index = product.options_with_values | where: "name", "Color" %}
+    {% endif %}
     {% if cor_option_index.size > 0 %}
       <div class="product-card__cores">
+        {% assign mapa_cores = "Red:#e63946,Blue:#1d3557,Green:#2a9d8f,Black:#000000,White:#ffffff,Yellow:#ffd60a,Pink:#ff6b9d" | split: "," %}
         {% for valor in cor_option_index.first.values %}
-          <span class="product-card__cor-bolinha" style="background-color: {{ valor | handle }};" title="{{ valor }}"></span>
+          {% assign cor_hex = "#cccccc" %}
+          {% assign valor_lower = valor | downcase %}
+          {% for par in mapa_cores %}
+            {% assign chave = par | split: ":" | first |  downcase %}
+            {% if chave == valor_lower %}
+              {% assign cor_hex = par | split: ":" | last %}
+            {% endif %}
+          {% endfor %}
+          <span class="product-card__cor-bolinha" style="background-color: {{ cor_hex }};" title="{{ valor }}"></span>
         {% endfor %}
       </div>
     {% endif %}
