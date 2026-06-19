@@ -1,0 +1,210 @@
+{% schema %}
+  {
+    "name": "Exercício Filtros Liquid",
+    "settings": [
+      {
+        "type": "collection",
+        "id": "colecao",
+        "label": "Coleção para exibir"
+      }, {
+        "type": "text",
+        "id": "titulo",
+        "label": "Título da seção",
+        "default": "Desafio 2.2 - Liquid: Filtros e Condicionais"
+      }
+    ],
+    "presets": [
+      {
+        "name": "Exercício Filtros Liquid"
+      }
+    ]
+  }
+{% endschema %}
+<section class="exercicio-filtros">
+  <h2 class="titulo-secao">{{ section.settings.titulo }}</h2>
+  {% if section.settings.colecao != blank %}
+    {% assign colecao = collections[section.settings.colecao] %}<h2>{{ colecao.title | upcase }}</h2>
+    <p>Total de produtos: {{ colecao.products.size }}
+  </p>
+    {%- comment -%}
+      TAREFA 1: Para cada produto da coleção, exibir:
+      a) Título capitalizado — usar o filtro capitalize
+      b) Preço formatado — usar o filtro money
+      c) Descrição truncada em 100 caracteres — usar filtro truncate
+      Dica: usar strip_html antes de truncate para remover tags HTML
+      d) Imagem redimensionada para 300px de largura — usar image_url com
+      width: 300
+      Estrutura sugerida para cada produto:
+      <div class="produto-card">
+      <img src="..." alt="...">
+      <h3>Título</h3>
+      <p class="descricao">Descrição truncada...</p>
+      <p class="preco">R$ XX,XX</p>
+      </div>
+    {%- endcomment -%}
+    {%- comment -%}
+      TAREFA 2: Lógica condicional — dentro do loop de produtos, adicionar:
+      a) Se o produto tiver compare_at_price maior que o price (está em
+      promoção):
+      - Mostrar badge "Em promoção" com classe "badge-promocao"
+      - Mostrar o preço original riscado (tag <s>)
+      - Calcular e exibir a porcentagem de desconto
+      Fórmula: ((compare_at_price - price) * 100) / compare_at_price
+      Dica: usar assign para guardar o cálculo
+      Dica: usar floor para arredondar para baixo
+      b) Se o produto NÃO estiver disponível (product.available == false):
+      - Mostrar badge "Esgotado" com classe "badge-esgotado"
+      c) Se o produto estiver disponível e NÃO for promoção:
+      - Mostrar badge "Disponível" com classe "badge-disponivel"
+    {%- endcomment -%}
+    {%- comment -%}
+      TAREFA 3: Usar assign e capture
+      a) assign — Criar uma variável que conte quantos produtos estão em
+      promoção:
+      - Antes do loop, inicializar: {% assign produtos_em_promocao = 0
+      %}
+      - Dentro do loop, incrementar quando for promoção
+      - Após o loop, exibir: "X produtos em promoção"b) capture — Montar um texto resumo dinâmico:
+      {% capture resumo %}
+      A coleção "{{ colecao.title }}" tem {{ colecao.products.size }}
+      produtos,
+      sendo {{ produtos_em_promocao }} em promoção.
+      {% endcapture %}
+      - Exibir o resumo em um <p> com classe "resumo"
+    {%- endcomment -%}
+    {% assign produtos_em_promocao = 0 %}
+    <div class="produtos-container">
+      {% for produto in colecao.products %}
+        <div class="produto-card">
+          <img src="{{ produto.featured_image | image_url: width: 300 }}" alt="{{ produto.title }}">
+          <h3>{{ produto.title | capitalize }}</h3>
+          <p class="descricao">{{ produto.description | strip_html | truncate: 100 }}</p>
+          <p class="preco">
+            {%- if produto.available == false -%}
+              <span class="badge-esgotado">Esgotado</span>
+              {{ produto.price | money }}
+            {%- elsif produto.compare_at_price > produto.price -%}
+              {% assign produtos_em_promocao = produtos_em_promocao | plus: 1 %}
+              {% assign desconto = produto.compare_at_price | minus: produto.price %}
+              {% assign porcentagem = desconto | times: 100 | divided_by: produto.compare_at_price | floor %}
+              <span class="badge-promocao">Em promoção - {{ porcentagem }}% OFF</span>
+            {%- else -%}
+              <span class="badge-disponivel">Disponível</span>
+            {%- endif -%}
+          </p>
+        </div>
+      {% endfor %}
+    </div>
+    {% capture resumo %}
+      A coleção "{{ colecao.title }}" tem {{ colecao.products.size }}
+      produtos,
+      sendo {{ produtos_em_promocao }} em promoção.
+    {% endcapture %}
+    <p class="resumo">{{ resumo }}</p>
+  {% else %}
+    <p class="sem-colecao">Selecione uma coleção nas configurações da                     
+seção.</p>
+  {% endif %}
+</section>
+<style>
+  .exercicio-filtros {
+    max-width: 1200px;
+    margin: 0 auto;
+    padding: 2rem;
+  }
+  .exercicio-filtros h2 {
+    text-align: center;
+    margin-bottom: 0.5rem;
+  }
+  .exercicio-filtros .produtos-container {
+    display: grid;
+    grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+    gap: 1.5rem;
+    margin-top: 1.5rem;
+  }
+  .produto-card {
+    border: 1px solid #e0e0e0;
+    border-radius: 8px;
+    padding: 1rem;
+    position: relative;
+    transition: box-shadow 0.3s;
+    display: flex;
+    flex-direction: column;
+    height: 100%;
+  }
+  .produto-card:hover {
+    box-shadow: 0 4px 12px rgba(0, 0, 0, 0.1);
+  }
+  .produto-card img {
+    width: 100%;
+    height: auto;
+    border-radius: 4px;
+  }
+  .produto-card h3 {
+    margin: 0.75rem 0 0.25rem;
+    font-size: 1rem;
+  }
+  .produto-card .descricao {
+    font-size: 0.85rem;
+    color: #666;
+    margin-bottom: 0.5rem;
+    flex-grow: 1;
+  }
+  .produto-card .preco {
+    font-weight: bold;
+    font-size: 1.1rem;
+    color: #333;
+  }
+  .produto-card .preco-original {
+    color: #999;
+    font-size: 0.9rem;
+    margin-left: 0.5rem;
+  }
+  .badge-promocao {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #e74c3c;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+  .badge-esgotado {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #95a5a6;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+  .badge-disponivel {
+    position: absolute;
+    top: 10px;
+    right: 10px;
+    background: #27ae60;
+    color: white;
+    padding: 4px 8px;
+    border-radius: 4px;
+    font-size: 0.75rem;
+    font-weight: bold;
+  }
+  .resumo {
+    text-align: center;
+    color: #555;
+    font-style: italic;
+    margin-top: 1.5rem;
+    padding: 1rem;
+    background: #f9f9f9;
+    border-radius: 4px;
+  }
+  .sem-colecao {
+    text-align: center;
+    color: #999;
+    padding: 2rem;
+  }
+</style>
