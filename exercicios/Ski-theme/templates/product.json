@@ -82,6 +82,64 @@
         "padding_bottom": 60
       }
     },
+    "adepoimentos_FyzHWU": {
+      "type": "adepoimentos",
+      "blocks": {
+        "depoimento_QQf4UJ": {
+          "type": "depoimento",
+          "settings": {
+            "depoimento": "junim-play"
+          }
+        },
+        "depoimento_TeiDHE": {
+          "type": "depoimento",
+          "settings": {
+            "depoimento": "rei-do-gado"
+          }
+        },
+        "depoimento_Ld3rcn": {
+          "type": "depoimento",
+          "settings": {
+            "depoimento": "jabirosca-jara"
+          }
+        },
+        "depoimento_ftTFen": {
+          "type": "depoimento",
+          "settings": {
+            "depoimento": "jabirosca-jara"
+          }
+        },
+        "depoimento_bbkgKx": {
+          "type": "depoimento",
+          "settings": {
+            "depoimento": "joao-bolao"
+          }
+        },
+        "depoimento_cXfDQ3": {
+          "type": "depoimento",
+          "settings": {
+            "depoimento": "junim-play"
+          }
+        },
+        "depoimento_WzRCwT": {
+          "type": "depoimento",
+          "settings": {
+            "depoimento": "maria-souza"
+          }
+        }
+      },
+      "block_order": [
+        "depoimento_QQf4UJ",
+        "depoimento_TeiDHE",
+        "depoimento_Ld3rcn",
+        "depoimento_ftTFen",
+        "depoimento_bbkgKx",
+        "depoimento_cXfDQ3",
+        "depoimento_WzRCwT"
+      ],
+      "name": "Depoimentos",
+      "settings": {}
+    },
     "related-products": {
       "type": "related-products",
       "settings": {
@@ -102,6 +160,7 @@
   },
   "order": [
     "main",
+    "adepoimentos_FyzHWU",
     "related-products"
   ]
 }
