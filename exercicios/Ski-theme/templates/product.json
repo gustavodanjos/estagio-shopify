@@ -163,12 +163,20 @@
       "settings": {
         "titulo": "Informações do Produto"
       }
+    },
+    "brand_info_VNwYPq": {
+      "type": "brand-info",
+      "name": "Sobre a Marca",
+      "settings": {
+        "titulo": "Sobre a Marca"
+      }
     }
   },
   "order": [
     "main",
     "adepoimentos_FyzHWU",
     "related-products",
-    "product_extra_info_RwnGcz"
+    "product_extra_info_RwnGcz",
+    "brand_info_VNwYPq"
   ]
 }

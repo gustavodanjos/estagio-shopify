@@ -1,0 +1,58 @@
+{{ 'brand-info.css' | asset_url | stylesheet_tag }}
+
+{% schema %}
+{
+  "name": "Sobre a Marca",
+  "settings": [
+    {
+      "type": "text",
+      "id": "titulo",
+      "label": "Título da seção",
+      "default": "Sobre a Marca"
+    }
+  ],
+  "enabled_on": {
+    "templates": ["product"]
+  },
+  "presets": [
+    {
+      "name": "Sobre a Marca"
+    }
+  ]
+}
+{% endschema %}
+
+{% assign marca = product.metafields.custom.marca.value %}
+
+{% if marca != blank %}
+  <div class="brand-info">
+    <h2 class="brand-info__titulo">{{ section.settings.titulo }}</h2>
+    <div class="brand-info__card">
+      {% if marca.logo != blank %}
+        {{ marca.logo | image_url: width: 200 | image_tag: class: 'brand-info__logo', loading: 'lazy', alt: marca.nome.value }}
+      {% endif %}
+      <div class="brand-info__detalhes">
+        {% if marca.nome.value != blank %}
+          <h3>{{ marca.nome.value }}</h3>
+        {% endif %}
+        {% if marca.pais_origem.value != blank %}
+          <p class="brand-info__origem">Origem: {{ marca.pais_origem.value }}</p>
+        {% endif %}
+        {% if marca.descricao.value != blank %}
+          <p class="brand-info__descricao">{{ marca.descricao.value }}</p>
+        {% endif %}
+        {% assign marca_link = marca.url.value | default: marca.site.value | default: marca.link.value %}
+        {% if marca_link != blank %}
+          <a
+            href="{{ marca_link }}"
+            target="_blank"
+            rel="noopener"
+            class="brand-info__link"
+          >
+            Visitar site da marca →
+          </a>
+        {% endif %}
+      </div>
+    </div>
+  </div>
+{% endif %}
