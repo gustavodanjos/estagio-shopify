@@ -208,13 +208,12 @@
   style="min-height: {{ section.settings.altura_minima }}px;"
 >
   {%- if section.settings.imagem_fundo -%}
-    <img
-      class="hero-banner__imagem-fundo"
-      src="{{ section.settings.imagem_fundo | image_url: width: 1920 }}"
-      alt=""
-      loading="eager"
-      fetchpriority="high"
-    >
+    {{ section.settings.imagem_fundo | image_url: width: 1920 | image_tag: 
+      class: 'hero-banner__imagem-fundo',
+      loading: 'eager',
+      fetchpriority: 'high',
+      alt: ''
+    }}
   {%- endif -%}
   {% assign overlay_opacity = section.settings.opacidade_overlay | times: 0.01 %}
   <div
@@ -235,6 +234,7 @@
           <{{ heading_tag }}
             class="hero-banner__heading {{ heading_tag }}"
             style="color: {{ block.settings.cor_titulo }};"
+            {{ block.shopify_attributes }}
           >
             {{ block.settings.texto_titulo | escape }}
           </{{ heading_tag }}>
@@ -242,11 +242,15 @@
           <div
             class="hero-banner__text"
             style="color: {{ block.settings.cor_paragrafo }};"
+            {{ block.shopify_attributes }}
           >
             {{ block.settings.texto_paragrafo }}
           </div>
         {% when 'button' %}
-          <div class="hero-banner__bloco-botao hero-banner__bloco-botao--{{ block.settings.alinhamento_botao }}">
+          <div 
+            class="hero-banner__bloco-botao hero-banner__bloco-botao--{{ block.settings.alinhamento_botao }}"
+            {{ block.shopify_attributes }}
+          >
             {% assign btn_class = 'hero-banner__button hero-banner__button--' | append: block.settings.estilo_botao %}
             <a
               href="{{ block.settings.link_botao }}"
@@ -257,15 +261,21 @@
             </a>
           </div>
         {% when 'image' %}
-          <div class="hero-banner__bloco-imagem hero-banner__bloco-imagem--{{ block.settings.alinhamento_imagem }}">
+          <div 
+            class="hero-banner__bloco-imagem hero-banner__bloco-imagem--{{ block.settings.alinhamento_imagem }}"
+            {{ block.shopify_attributes }}
+          >
             {% if block.settings.imagem != blank %}
-              <img
-                src="{{ block.settings.imagem | image_url: width: 800 }}"
-                alt="{{ block.settings.alt_imagem | escape }}"
-                class="hero-banner__imagem"
-                loading="lazy"
-                style="max-width: min(100%, {{ block.settings.largura_imagem }}px); max-height: {{ block.settings.altura_imagem }}px; width: auto; height: auto; object-fit: contain;"
-              >
+              {%- capture image_style -%}
+                max-width: min(100%, {{ block.settings.largura_imagem }}px); max-height: {{ block.settings.altura_imagem }}px; width: auto; height: auto; object-fit: contain;
+              {%- endcapture -%}
+              
+              {{ block.settings.imagem | image_url: width: 800 | image_tag: 
+                class: 'hero-banner__imagem',
+                loading: 'lazy',
+                alt: block.settings.alt_imagem,
+                style: image_style
+              }}
             {% endif %}
           </div>
       {% endcase %}
