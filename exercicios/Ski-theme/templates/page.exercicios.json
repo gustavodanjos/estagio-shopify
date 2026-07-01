@@ -50,12 +50,68 @@
         "cor_fundo": "#ffffff",
         "formato": "grid"
       }
+    },
+    "hero_banner_YPRdiJ": {
+      "type": "hero-banner",
+      "blocks": {
+        "heading_hfHG6q": {
+          "type": "heading",
+          "settings": {
+            "texto_titulo": "Desafio 3.1 — Hero Banner com Blocos Dinâmicos",
+            "tamanho_titulo": "h1",
+            "cor_titulo": "#ffffff"
+          }
+        },
+        "paragraph_7F7wdm": {
+          "type": "paragraph",
+          "settings": {
+            "texto_paragrafo": "<p>Desafio treinamento de shopify para desenvolvimento hero banners com: blocks configuráveis, CSS, entre outros. </p>",
+            "cor_paragrafo": "#ffffff"
+          }
+        },
+        "image_WDKPxE": {
+          "type": "image",
+          "settings": {
+            "imagem": "shopify://shop_images/camiseta-ski.jpg",
+            "largura_imagem": 150,
+            "altura_imagem": 150,
+            "alt_imagem": "Imagem do banner",
+            "alinhamento_imagem": "right"
+          }
+        },
+        "button_fjrDNn": {
+          "type": "button",
+          "settings": {
+            "texto_botao": "Ver Camiseta",
+            "link_botao": "shopify://products/camiseta-dev",
+            "cor_botao": "#ffffff",
+            "cor_texto_botao": "#000000",
+            "alinhamento_botao": "right",
+            "estilo_botao": "primary"
+          }
+        }
+      },
+      "block_order": [
+        "heading_hfHG6q",
+        "paragraph_7F7wdm",
+        "image_WDKPxE",
+        "button_fjrDNn"
+      ],
+      "name": "Hero Banner",
+      "settings": {
+        "imagem_fundo": "shopify://shop_images/person-fishing-on-the-beach-is-silhouetted-at-sunset.jpg",
+        "cor_overlay": "#000000",
+        "opacidade_overlay": 60,
+        "altura_minima": 500,
+        "alinhamento": "center"
+      }
     }
   },
   "order": [
     "main",
     "exercicio_liquid_basico_WANYeF",
     "exercicio_filtros_CnkWgJ",
-    "exercicio_product_grid_PK9JAX"
+    "exercicio_product_grid_PK9JAX",
+    "hero_banner_YPRdiJ"
   ]
 }
