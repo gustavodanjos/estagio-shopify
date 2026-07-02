@@ -1,0 +1,284 @@
+{% schema %}
+{
+  "name": "Hero Banner",
+  "settings": [
+    {
+      "type": "image_picker",
+      "id": "imagem_fundo",
+      "label": "Imagem de fundo"
+    },
+    {
+      "type": "color",
+      "id": "cor_overlay",
+      "label": "Cor do overlay",
+      "default": "#000000"
+    },
+    {
+      "type": "range",
+      "id": "opacidade_overlay",
+      "label": "Opacidade do overlay",
+      "min": 0,
+      "max": 100,
+      "step": 5,
+      "default": 40,
+      "unit": "%"
+    },
+    {
+      "type": "range",
+      "id": "altura_minima",
+      "label": "Altura mínima",
+      "min": 300,
+      "max": 800,
+      "step": 50,
+      "default": 500,
+      "unit": "px"
+    },
+    {
+      "type": "select",
+      "id": "alinhamento",
+      "label": "Alinhamento do conteúdo",
+      "options": [
+        { "value": "left", "label": "Esquerda" },
+        { "value": "center", "label": "Centro" },
+        { "value": "right", "label": "Direita" }
+      ],
+      "default": "center"
+    }
+  ],
+  "blocks": [
+    {
+      "type": "heading",
+      "name": "Título",
+      "settings": [
+        {
+          "type": "text",
+          "id": "texto_titulo",
+          "label": "Texto do título",
+          "default": "Título do banner"
+        },
+        {
+          "type": "select",
+          "id": "tamanho_titulo",
+          "label": "Tamanho do título",
+          "options": [
+            { "value": "h1", "label": "H1" },
+            { "value": "h2", "label": "H2" },
+            { "value": "h3", "label": "H3" }
+          ],
+          "default": "h1"
+        },
+        {
+          "type": "color",
+          "id": "cor_titulo",
+          "label": "Cor do texto",
+          "default": "#ffffff"
+        }
+      ]
+    },
+    {
+      "type": "paragraph",
+      "name": "Parágrafo",
+      "settings": [
+        {
+          "type": "richtext",
+          "id": "texto_paragrafo",
+          "label": "Conteúdo",
+          "default": "<p>Parágrafo do banner</p>"
+        },
+        {
+          "type": "color",
+          "id": "cor_paragrafo",
+          "label": "Cor do texto",
+          "default": "#ffffff"
+        }
+      ]
+    },
+    {
+      "type": "button",
+      "name": "Botão",
+      "settings": [
+        {
+          "type": "text",
+          "id": "texto_botao",
+          "label": "Texto do botão",
+          "default": "Botão"
+        },
+        {
+          "type": "url",
+          "id": "link_botao",
+          "label": "Link do botão"
+        },
+        {
+          "type": "color",
+          "id": "cor_botao",
+          "label": "Cor do botão",
+          "default": "#ffffff"
+        },
+        {
+          "type": "color",
+          "id": "cor_texto_botao",
+          "label": "Cor do texto do botão",
+          "default": "#000000"
+        },
+        {
+          "type": "select",
+          "id": "alinhamento_botao",
+          "label": "Alinhamento do botão",
+          "options": [
+            { "value": "left", "label": "Esquerda" },
+            { "value": "center", "label": "Centro" },
+            { "value": "right", "label": "Direita" }
+          ],
+          "default": "center"
+        },
+        {
+          "type": "select",
+          "id": "estilo_botao",
+          "label": "Estilo do botão",
+          "options": [
+            { "value": "primary", "label": "Primário / Preenchido" },
+            { "value": "secondary", "label": "Secundário / Contorno" }
+          ],
+          "default": "primary"
+        }
+      ]
+    },
+    {
+      "type": "image",
+      "name": "Imagem",
+      "settings": [
+        {
+          "type": "image_picker",
+          "id": "imagem",
+          "label": "Imagem"
+        },
+        {
+          "type": "range",
+          "id": "largura_imagem",
+          "label": "Largura máxima",
+          "min": 50,
+          "max": 400,
+          "step": 50,
+          "default": 200,
+          "unit": "px"
+        },
+        {
+          "type": "range",
+          "id": "altura_imagem",
+          "label": "Altura máxima",
+          "min": 50,
+          "max": 500,
+          "step": 50,
+          "default": 200,
+          "unit": "px"
+        },
+        {
+          "type": "text",
+          "id": "alt_imagem",
+          "label": "Alt text",
+          "default": "Imagem do banner"
+        },
+        {
+          "type": "select",
+          "id": "alinhamento_imagem",
+          "label": "Alinhamento da imagem",
+          "options": [
+            { "value": "left", "label": "Esquerda" },
+            { "value": "center", "label": "Centro" },
+            { "value": "right", "label": "Direita" }
+          ],
+          "default": "center"
+        }
+      ]
+    }
+  ],
+
+  "presets": [
+    {
+      "name": "Hero Banner",
+      "blocks": [{ "type": "heading" }, { "type": "paragraph" }, { "type": "button" }, { "type": "image" }]
+    }
+  ]
+}
+{% endschema %}
+{{ 'hero-banner.css' | asset_url | stylesheet_tag }}
+
+<section
+  class="hero-banner"
+  style="min-height: {{ section.settings.altura_minima }}px;"
+>
+  {%- if section.settings.imagem_fundo -%}
+    {{ section.settings.imagem_fundo | image_url: width: 1920 | image_tag: 
+      class: 'hero-banner__imagem-fundo',
+      loading: 'eager',
+      fetchpriority: 'high',
+      alt: ''
+    }}
+  {%- endif -%}
+  {% assign overlay_opacity = section.settings.opacidade_overlay | times: 0.01 %}
+  <div
+    class="hero-banner__overlay"
+    style="background-color: {{ section.settings.cor_overlay | color_modify: 'alpha', overlay_opacity }};"
+  > </div>
+  <div
+    class="
+      hero-banner__conteudo hero-banner__conteudo--{{
+      section.settings.alinhamento }}
+    "
+  >
+    {% for block in section.blocks %}
+      {% case block.type %}
+        {% when 'heading' %}
+          {% assign heading_tag = block.settings.tamanho_titulo %}
+
+          <{{ heading_tag }}
+            class="hero-banner__heading {{ heading_tag }}"
+            style="color: {{ block.settings.cor_titulo }};"
+            {{ block.shopify_attributes }}
+          >
+            {{ block.settings.texto_titulo | escape }}
+          </{{ heading_tag }}>
+        {% when 'paragraph' %}
+          <div
+            class="hero-banner__text"
+            style="color: {{ block.settings.cor_paragrafo }};"
+            {{ block.shopify_attributes }}
+          >
+            {{ block.settings.texto_paragrafo }}
+          </div>
+        {% when 'button' %}
+          <div 
+            class="hero-banner__bloco-botao hero-banner__bloco-botao--{{ block.settings.alinhamento_botao }}"
+            {{ block.shopify_attributes }}
+          >
+            {% assign btn_class = 'hero-banner__button hero-banner__button--' | append: block.settings.estilo_botao %}
+            <a
+              href="{{ block.settings.link_botao }}"
+              class="{{ btn_class }}"
+              style="--btn-bg: {{ block.settings.cor_botao }}; --btn-text: {{ block.settings.cor_texto_botao }};"
+            >
+              {{ block.settings.texto_botao | escape }}
+            </a>
+          </div>
+        {% when 'image' %}
+          <div 
+            class="hero-banner__bloco-imagem hero-banner__bloco-imagem--{{ block.settings.alinhamento_imagem }}"
+            {{ block.shopify_attributes }}
+          >
+            {% if block.settings.imagem != blank %}
+              {%- capture image_style -%}
+                max-width: min(100%, {{ block.settings.largura_imagem }}px); max-height: {{ block.settings.altura_imagem }}px; width: auto; height: auto; object-fit: contain;
+              {%- endcapture -%}
+              
+              {{ block.settings.imagem | image_url: width: 800 | image_tag: 
+                class: 'hero-banner__imagem',
+                loading: 'lazy',
+                alt: block.settings.alt_imagem,
+                style: image_style
+              }}
+            {% endif %}
+          </div>
+      {% endcase %}
+    {% endfor %}
+  </div>
+</section>

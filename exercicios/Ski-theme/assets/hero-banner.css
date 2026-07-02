@@ -1,0 +1,184 @@
+.hero-banner {
+  position: relative;
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  overflow: hidden;
+  padding: 60px 20px;
+  box-sizing: border-box;
+}
+
+.hero-banner__imagem-fundo {
+  position: absolute;
+  inset: 0;
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+  object-position: center;
+  z-index: 0;
+  display: block;
+}
+
+.hero-banner__overlay {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 0;
+  z-index: 1;
+  pointer-events: none;
+}
+
+.hero-banner .hero-banner__conteudo {
+  position: relative;
+  z-index: 2;
+  width: 100%;
+  max-width: 1200px;
+  margin: 0 auto;
+  display: flex;
+  flex-direction: column;
+  gap: 20px;
+  box-sizing: border-box;
+}
+
+/* Desktop alignment*/
+@media screen and (min-width: 750px) {
+  .hero-banner__conteudo--left {
+    align-items: flex-start;
+    text-align: left;
+  }
+
+  .hero-banner__conteudo--center {
+    align-items: center;
+    text-align: center;
+  }
+
+  .hero-banner__conteudo--right {
+    align-items: flex-end;
+    text-align: right;
+  }
+}
+
+/* Mobile style*/
+@media screen and (max-width: 749px) {
+  .hero-banner {
+    text-align: center;
+  }
+  .hero-banner .hero-banner__conteudo {
+    align-items: center;
+    text-align: center;
+  }
+}
+
+/* Block heading styles */
+.hero-banner .hero-banner__heading {
+  margin: 0;
+  font-weight: bold;
+  line-height: 1.2;
+}
+.hero-banner .hero-banner__heading.h1 {
+  font-size: 3rem;
+}
+.hero-banner .hero-banner__heading.h2 {
+  font-size: 2.5rem;
+}
+.hero-banner .hero-banner__heading.h3 {
+  font-size: 2rem;
+}
+
+@media screen and (max-width: 749px) {
+  .hero-banner .hero-banner__heading.h1 {
+    font-size: 2.2rem;
+  }
+  .hero-banner .hero-banner__heading.h2 {
+    font-size: 1.8rem;
+  }
+  .hero-banner .hero-banner__heading.h3 {
+    font-size: 1.5rem;
+  }
+}
+
+/* Block image wrapper - alinhamento independente */
+.hero-banner__bloco-imagem {
+  width: 100%;
+  display: flex;
+}
+.hero-banner__bloco-imagem--left {
+  justify-content: flex-start;
+}
+.hero-banner__bloco-imagem--center {
+  justify-content: center;
+}
+.hero-banner__bloco-imagem--right {
+  justify-content: flex-end;
+}
+
+.hero-banner__imagem {
+  display: block;
+  max-width: 100%;
+  height: auto;
+  border-radius: 4px;
+}
+
+/* Block button wrapper - alinhamento independente */
+.hero-banner__bloco-botao {
+  width: 100%;
+  display: flex;
+}
+
+.hero-banner__bloco-botao--left {
+  justify-content: flex-start;
+}
+
+.hero-banner__bloco-botao--center {
+  justify-content: center;
+}
+
+.hero-banner__bloco-botao--right {
+  justify-content: flex-end;
+}
+
+/* Paragraph */
+.hero-banner .hero-banner__text {
+  margin: 0;
+  font-size: 1.2rem;
+  line-height: 1.5;
+}
+.hero-banner .hero-banner__text p {
+  margin: 0;
+}
+
+/* Button */
+.hero-banner .hero-banner__button {
+  display: inline-block;
+  padding: 12px 32px;
+  font-size: 1rem;
+  text-decoration: none;
+  font-weight: 600;
+  border-radius: 4px;
+  transition:
+    background-color 0.3s,
+    color 0.3s,
+    border-color 0.3s;
+  cursor: pointer;
+}
+
+.hero-banner .hero-banner__button--primary {
+  background-color: var(--btn-bg, #ffffff);
+  color: var(--btn-text, #000000);
+  border: 2px solid var(--btn-bg, #ffffff);
+}
+.hero-banner .hero-banner__button--primary:hover {
+  background-color: transparent;
+  color: var(--btn-bg, #ffffff);
+}
+
+.hero-banner .hero-banner__button--secondary {
+  background-color: transparent;
+  color: var(--btn-bg, #ffffff);
+  border: 2px solid var(--btn-bg, #ffffff);
+}
+.hero-banner .hero-banner__button--secondary:hover {
+  background-color: var(--btn-bg, #ffffff);
+  color: var(--btn-text, #000000);
+}
